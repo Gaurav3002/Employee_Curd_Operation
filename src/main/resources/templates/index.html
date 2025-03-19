@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Management System</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <!-- Additional CSS (if needed) -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Employee Management</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Employee List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/showEmpForm">Add Employee</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container mt-4">
+    <h1>Employee List</h1>
+
+    <!-- Export Button (optional) -->
+    <button onclick="exportData()" class="btn btn-primary btn-sm mb-3">Export</button>
+
+    <!-- Table for Employee Data -->
+    <table id="employeeTable" class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Employee First Name</th>
+            <th>Employee Last Name</th>
+            <th>Employee Email</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Thymeleaf iteration to display employee list -->
+        <tr th:each="employee : ${listEmployee}">
+            <td th:text="${employee.firstName}"></td>
+            <td th:text="${employee.lastName}"></td>
+            <td th:text="${employee.email}"></td>
+            <td>
+                <!-- Update and Delete buttons with Thymeleaf dynamic URLs -->
+                <a th:href="@{/showFormUpdate/{id}(id=${employee.id})}" class="btn btn-warning btn-sm">Update</a>
+                <a th:href="@{/deleteEmp/{id}(id=${employee.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?')">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<!-- Footer -->
+<footer class="text-center py-4">
+    <p>© 2025 Employee Management System</p>
+</footer>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+    // Initialize DataTable
+    $(document).ready(function() {
+        $('#employeeTable').DataTable();  // Activates DataTable for the employee table
+    });
+
+    // Export function (you can implement this function as needed)
+    function exportData() {
+        window.location.href = '/export/csv';  // Endpoint to export data (adjust this URL as per your requirement)
+    }
+</script>
+
+</body>
+</html>
